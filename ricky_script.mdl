@@ -1,0 +1,38 @@
+frames 50
+basename bird
+
+push
+move 100 250 0
+move 0 100 0 flap
+rotate x 360 spin
+rotate y 360 spin
+rotate z 360 spin
+
+sphere 0 0 0 30
+
+vary flap 0 9 0 1
+vary flap 10 19 1 .5
+vary flap 20 29 .5 1.5
+vary flap 30 49 1.5 0
+vary spin 1 49 0 1
+pop
+
+push
+move -500 0 0 bars
+
+box 70 500 0 50 150 50
+box 70 150 0 50 150 50
+box 200 500 0 50 100 50
+box 200 250 0 50 250 50
+box 400 500 0 50 50 50
+box 400 300 0 50 300 50
+
+box 570 500 0 50 150 50
+box 570 150 0 50 150 50
+box 700 500 0 50 100 50
+box 700 250 0 50 250 50
+box 900 500 0 50 50 50
+box 900 300 0 50 300 50
+
+vary bars 0 49 0 1
+pop
