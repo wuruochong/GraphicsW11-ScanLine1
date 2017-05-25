@@ -120,24 +120,24 @@ void scan_line( struct matrix * polygons, int point, screen s, color c) {
 		}
 
 		//from bottom to middle
-		color color1;
+/*		color color1;
 		color1.red =255;
 		color1.blue = 0;
-		color1.green = 0;
+		color1.green = 0; */
 		dx0 = (tx-bx)/(ty-by);
 		if (my==by) dx1 = 0;
 		else dx1 = (mx-bx)/(my-by);
-		for (int i = 0; i<my-by ; i++){
-			draw_line(bx+(i*dx0), by+i,
-								bx+(i*dx1), by+i, s, color1);
+		for (int j = 0; j<my-by ; j++){
+			draw_line(bx+(j*dx0), by+j,
+								bx+(j*dx1), by+j, s, c);
 		}
 
 		//from middle to top
 		if (ty == my) dx1 = 0;
 		else dx1 = (tx-mx)/(ty-my);
-		for (int i = 0; i<ty-my ; i++){
-			draw_line(mx+(i*dx0), my+i,
-								mx+(i*dx1), my+i, s, c);
+		for (int k = 0; k<ty-my ; k++){
+			draw_line(bx+((k+my-by)*dx0), my+k,
+								mx+(k*dx1), my+k, s, c);
 		}
 }
 
