@@ -35,15 +35,15 @@ void add_polygon( struct matrix *polygons,
 }
 
 void scan_line( struct matrix * polygons, int point, screen s, color c) {
-	if (polygons-> lastcol < 3){
+	if (polygons->lastcol < 3){
 		printf("Need a polygon to do scan line conversion!\n");
 		return;
 	}
-	int point;
 	double x0, y0, z0, x1, y1, z1, x2, y2, z2;
 	double bx, by, bz, mx, my, mz, tx, ty, tz;
 	double dx0, dx1;
-	for (point= 0; point< polygons->lastcol-2; point+=3){ //for each polgyon
+	//for polygon
+
 		x0 = polygons->m[0][point];
 		y0 = polygons->m[1][point];
 		z0 = polygons->m[2][point];
@@ -53,12 +53,13 @@ void scan_line( struct matrix * polygons, int point, screen s, color c) {
 		x2 = polygons->m[0][point+2];
 		y2 = polygons->m[1][point+2];
 		z2 = polygons->m[2][point+2];
+		printf("x0: %lf, y0: %lf, z0: %lf, x1: %lf, y1: %lf, z1: %lf, x2: %lf, y2: %lf, z2: %lf\n", x0, y0, z0, x1, y1, z1, x2, y2, z2);
 
-		if(y0<y1 && y0<y2){ //y0 is min
+		if(y0<=y1 && y0<=y2){ //y0 is min
 			bx = x0;
 			by = y0;
 			bz = z0;
-			if(y1<y2){  //y1 is middle
+			if(y1<=y2){  //y1 is middle
 				mx = x1;
 				my = y1;
 				mz = z1;
@@ -75,11 +76,11 @@ void scan_line( struct matrix * polygons, int point, screen s, color c) {
 				tz = z1;
 			}
 		}
-		else if(y1<y0 && y1<y2){ //y1 is min
+		else if(y1<=y0 && y1<=y2){ //y1 is min
 			bx = x1;
 			by = y1;
 			bz = z1;
-			if(y0<y2){ //y0 is middle
+			if(y0<=y2){ //y0 is middle
 				mx = x0;
 				my = y0;
 				mz = z0;
@@ -100,7 +101,7 @@ void scan_line( struct matrix * polygons, int point, screen s, color c) {
 			bx = x2;
 			by = y2;
 			bz = z2;
-			if(y0<y1){ //y0 is middle
+			if(y0<=y1){ //y0 is middle
 				mx = x0;
 				my = y0;
 				mz = z0;
@@ -119,15 +120,25 @@ void scan_line( struct matrix * polygons, int point, screen s, color c) {
 		}
 
 		//from bottom to middle
+		color color1;
+		color1.red =255;
+		color1.blue = 0;
+		color1.green = 0;
 		dx0 = (tx-bx)/(ty-by);
-		if (ty==my) dx1 = 0;
+		if (my==by) dx1 = 0;
 		else dx1 = (mx-bx)/(my-by);
 		for (int i = 0; i<my-by ; i++){
-			draw_line(bx+(i*dx0), by+i, bz,
-								bx+(i*dx1), by+i, bz, s, c);
+			draw_line(bx+(i*dx0), by+i,
+								bx+(i*dx1), by+i, s, color1);
 		}
 
-	}
+		//from middle to top
+		if (ty == my) dx1 = 0;
+		else dx1 = (tx-mx)/(ty-my);
+		for (int i = 0; i<ty-my ; i++){
+			draw_line(mx+(i*dx0), my+i,
+								mx+(i*dx1), my+i, s, c);
+		}
 }
 
 
@@ -155,7 +166,11 @@ void draw_polygons( struct matrix *polygons, screen s, color c ) {
 
     if ( normal[2] > 0 ) {
 
-			scan_line()
+			color scancolor;
+			scancolor.red = 0;
+			scancolor.blue = 255;
+			scancolor.green = 0;
+			scan_line(polygons,point, s, scancolor);
 
       draw_line( polygons->m[0][point],
 		 polygons->m[1][point],
