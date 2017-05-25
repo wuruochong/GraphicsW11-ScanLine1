@@ -411,5 +411,5 @@ void process_knobs(int frame, struct vary_node ** knobs){
     while(systems->top)pop(systems);
   }
   }
-  make_animation(name);
+  if (num_frames > 1) make_animation(name);
     }
