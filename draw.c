@@ -34,6 +34,14 @@ void add_polygon( struct matrix *polygons,
   add_point(polygons, x2, y2, z2);
 }
 
+color rand_color(){
+	color ret;
+	ret.red = rand()%255;
+	ret.green = rand()%255;
+	ret.blue = rand()%255;
+	return ret;
+}
+
 void scan_line( struct matrix * polygons, int point, screen s, color c) {
 	if (polygons->lastcol < 3){
 		printf("Need a polygon to do scan line conversion!\n");
@@ -124,12 +132,13 @@ void scan_line( struct matrix * polygons, int point, screen s, color c) {
 		color1.red =255;
 		color1.blue = 0;
 		color1.green = 0; */
+		color c1 = rand_color();
 		dx0 = (tx-bx)/(ty-by);
 		if (my==by) dx1 = 0;
 		else dx1 = (mx-bx)/(my-by);
 		for (int j = 0; j<my-by ; j++){
 			draw_line(bx+(j*dx0), by+j,
-								bx+(j*dx1), by+j, s, c);
+								bx+(j*dx1), by+j, s, c1);
 		}
 
 		//from middle to top
@@ -137,7 +146,7 @@ void scan_line( struct matrix * polygons, int point, screen s, color c) {
 		else dx1 = (tx-mx)/(ty-my);
 		for (int k = 0; k<ty-my ; k++){
 			draw_line(bx+((k+my-by)*dx0), my+k,
-								mx+(k*dx1), my+k, s, c);
+								mx+(k*dx1), my+k, s, c1);
 		}
 }
 
